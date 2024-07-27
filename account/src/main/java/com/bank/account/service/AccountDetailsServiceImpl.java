@@ -15,51 +15,41 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AccountDetailsServiceImpl implements AccountDetailsService {
 
-    private static final String MESSAGE_PREFIX = "Не существующий id";
-    private final AccountDetailsMapper mapper;
+
     private final AccountDetailsRepository repository;
 
     private final ExceptionReturner exceptionReturner;
+    private  static final String  MESSAGE_PREFIX = "не найден аккаунт с id : ";
 
     @Override
-    public AccountDetailsDto findById(Long id) {
-        return mapper.toDto(repository.findById(id)
+    public AccountDetails findById(Long id) {
+        return (repository.findById(id)
                 .orElseThrow(() -> exceptionReturner.getEntityNotFoundException(MESSAGE_PREFIX + id))
         );
     }
 
     @Override
-    public List<AccountDetailsDto> findAllById(List<Long> ids) {
+    public List<AccountDetails> findAll() {
 
-        final List<AccountDetails> accountDetailsList = ids.stream()
-                .map(id -> repository.findById(id)
-                        .orElseThrow(() -> exceptionReturner.getEntityNotFoundException(MESSAGE_PREFIX + id)))
-                .toList();
-        return mapper.toDtoList(accountDetailsList);
+        return repository.findAll();
     }
 
     @Override
     @Transactional
-    public AccountDetailsDto save(AccountDetailsDto accountDetailsDto) {
-
-        final AccountDetails accountDetails = repository.save(
-                mapper.toEntity(accountDetailsDto)
-        );
-
-        return mapper.toDto(accountDetails);
+    public void  save(AccountDetails accountDetails) {
+        repository.save(accountDetails);
     }
 
     @Override
     @Transactional
-    public AccountDetailsDto update(Long id, AccountDetailsDto accountDetailsDto) {
-
-        final AccountDetails accountDetails = repository.findById(id)
-                .orElseThrow(() -> exceptionReturner.getEntityNotFoundException(MESSAGE_PREFIX + id));
-
-        final AccountDetails updateAccountDetails = repository.save(
-                mapper.mergeToEntity(accountDetails, accountDetailsDto)
-        );
-
-        return mapper.toDto(updateAccountDetails);
+    public void  update(Long id, AccountDetails accountDetails) {
+        accountDetails.setId(id);
+        repository.save(accountDetails);
     }
+    @Override
+    @Transactional
+    public void  delete(Long id) {
+        repository.deleteById(id);
+    }
+
 }

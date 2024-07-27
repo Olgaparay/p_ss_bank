@@ -1,19 +1,14 @@
 package com.bank.account.controller;
 
 import com.bank.account.dto.AccountDetailsDto;
+import com.bank.account.entity.AccountDetails;
 import com.bank.account.service.AccountDetailsService;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.*;
+import com.bank.account.mapper.AccountDetailsMapper;
 import java.util.List;
 
 
@@ -27,27 +22,36 @@ import java.util.List;
 public class AccountDetailsController {
 
     private final AccountDetailsService service;
+    private final AccountDetailsMapper mapper;
 
     @Timed("controller: getUnsecuredData")
     @GetMapping("/{id}")  // Метод для получения данных аккаунта по его идентификатору
-    public AccountDetailsDto read(@PathVariable("id") Long id) {
-        return service.findById(id);
+    public ResponseEntity<AccountDetails> read(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
     @Timed("controller: createAuthToken")
     @PostMapping("/create")  // Метод для создания нового аккаунта
-    public ResponseEntity<AccountDetailsDto> create(@RequestBody AccountDetailsDto accountDetails) {
-        return ResponseEntity.ok(service.save(accountDetails));
+    public ResponseEntity<HttpStatus> create(@RequestBody AccountDetailsDto accountDetails) {
+        service.save(
+                mapper.toEntity(accountDetails));
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")  // Метод для обновления существующего аккаунта по его идентификатору
-    public ResponseEntity<AccountDetailsDto> update(@PathVariable Long id,
+    public ResponseEntity<HttpStatus> update(@PathVariable Long id,
                                                     @RequestBody AccountDetailsDto accountDetails) {
-        return ResponseEntity.ok(service.update(id, accountDetails));
+        service.update(id, mapper.toEntity(accountDetails));
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 
     @GetMapping("read/all")  // Метод для получения списка аккаунтов по их идентификаторам
-    public ResponseEntity<List<AccountDetailsDto>> readAll(@RequestParam List<Long> ids) {
-        return ResponseEntity.ok(service.findAllById(ids));
+    public ResponseEntity<List<AccountDetails>> readAll() {
+        return new ResponseEntity<>(service.findAll(),HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")  // Метод для получения списка аккаунтов по их идентификаторам
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }

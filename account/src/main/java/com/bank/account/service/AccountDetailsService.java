@@ -1,17 +1,20 @@
 package com.bank.account.service;
 
 import com.bank.account.dto.AccountDetailsDto;
+import com.bank.account.entity.AccountDetails;
 
 
 import java.util.List;
 
 public interface AccountDetailsService {
-    AccountDetailsDto findById(Long id);
+    AccountDetails findById(Long id);
 
-    List<AccountDetailsDto> findAllById(List<Long> ids);
+    List<AccountDetails> findAll();
 
-    AccountDetailsDto save(AccountDetailsDto accountDetails);
+    void   save(AccountDetails accountDetails);
 
-    AccountDetailsDto update(Long id, AccountDetailsDto accountDetails);
+    void   update(Long id, AccountDetails accountDetails);
+
+    void   delete(Long id);
 
 }
