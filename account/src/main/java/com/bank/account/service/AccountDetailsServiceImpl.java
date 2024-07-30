@@ -1,9 +1,8 @@
 package com.bank.account.service;
 
-import com.bank.account.dto.AccountDetailsDto;
+
 import com.bank.account.entity.AccountDetails;
 import com.bank.account.exeption.ExceptionReturner;
-import com.bank.account.mapper.AccountDetailsMapper;
 import com.bank.account.repository.AccountDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

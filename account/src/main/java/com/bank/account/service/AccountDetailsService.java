@@ -1,6 +1,5 @@
 package com.bank.account.service;
 
-import com.bank.account.dto.AccountDetailsDto;
 import com.bank.account.entity.AccountDetails;
 
 

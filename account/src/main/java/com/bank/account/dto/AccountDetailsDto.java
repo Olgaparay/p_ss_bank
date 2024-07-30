@@ -18,4 +18,5 @@ public class AccountDetailsDto implements Serializable {
     BigDecimal money;
     Boolean negativeBalance;
     Long profileId;
+
 }

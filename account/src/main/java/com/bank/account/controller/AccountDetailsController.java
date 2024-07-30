@@ -5,6 +5,7 @@ import com.bank.account.entity.AccountDetails;
 import com.bank.account.service.AccountDetailsService;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/details")
-
+@EnableAspectJAutoProxy
 public class AccountDetailsController {
 
     private final AccountDetailsService service;
