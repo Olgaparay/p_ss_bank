@@ -48,6 +48,21 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- Spring Boot Starter AOP для поддержки аспектно-ориентированного программирования -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- AspectJ для поддержки аспектов в проекте -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.9.22</version> <!-- Убедитесь, что используете актуальную версию -->
+        </dependency>
+
+
     </dependencies>
 
     <build>
